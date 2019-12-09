@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exercicios Módulo 2</title>
+</head>
+<body>
+
+    <button id="createElement">Criar Elemento</button>
+    <div id="box">
+
+    </div>
+
+    <script>
+        //Exercicio1
+            document.querySelector('#createElement').addEventListener('click', () => {
+            let box = document.createElement("div");
+            box.style.background = "red";
+            box.style.width = "100px";
+            box.style.height = "100px";
+            document.querySelector('#box').appendChild(box);
+
+        
+        });
+    </script>
+</body>
+</html>
