@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input type="text">
+    <button>Buscar</button>
+    <ul>
+
+
+    </ul>
+    <script>
+        let inputElement = document.querySelector('input');
+        let listElement = document.querySelector('ul');
+        let list = document.createElement('li');
+        const searchGitHub = document.querySelector('button').addEventListener('click', function () {
+            return new Promise(function (resolve, reject) {
+                showLoading();
+                setTimeout(() => {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('GET', 'https://api.github.com/users/' + inputElement.value + '/repos');
+                    xhr.send(null);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                resolve(JSON.parse(xhr.responseText))
+                            } else {
+                                reject('Erro na requisição');
+                            }
+                        }
+                    }
+                }, 3000)
+            })
+                .then(function (response) {
+                    listElement.innerHTML = " ";
+                    for (const responses of response) {
+                        let list = document.createElement('li');
+                        listText = document.createTextNode(responses.name);
+                        list.appendChild(listText);
+                        listElement.appendChild(list);
+                    }
+                })
+                .catch(function () {
+                   showError();
+                });
+        });
+
+        function showLoading(){
+            listElement.innerHTML = " ";
+            listText = document.createTextNode("Carregando");
+            let list = document.createElement('li');
+            list.appendChild(listText);
+            listElement.appendChild(list);
+        }
+        function showError(){
+            listElement.innerHTML = " ";
+            listText = document.createTextNode("Erro");
+            let list = document.createElement('li');
+            list.appendChild(listText);
+            listElement.appendChild(list);
+        }
+
+    </script>
+</body>
+
+</html>

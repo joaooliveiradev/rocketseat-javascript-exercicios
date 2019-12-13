@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input type="text">
+    <button>Buscar</button>
+    <ul>
+
+
+    </ul>
+    <script>
+        let inputElement = document.querySelector('input');
+        const searchGitHub = document.querySelector('button').addEventListener('click', function () {
+            return new Promise(function (resolve, reject) {
+                let xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://api.github.com/users/' + inputElement.value + '/repos');
+                xhr.send(null);
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            resolve(JSON.parse(xhr.responseText))
+                        } else {
+                            reject('Erro na requisição');
+                        }
+                    }
+                }
+            })
+                .then(function (response) {
+                    for (const responses of response) {
+                        let listElement = document.querySelector('ul');
+                        let list = document.createElement('li');
+                        let listText = document.createTextNode(responses.name);
+                        list.appendChild(listText);
+                        listElement.appendChild(list);
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        });
+
+
+    </script>
+</body>
+
+</html>
